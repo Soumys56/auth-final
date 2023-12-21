@@ -1,43 +1,63 @@
 import * as React from "react";
 
-import {
-  createBrowserRouter,
-  RouterProvider,
- 
-} from "react-router-dom";
-import Header from "./components/Header";
+import { Routes, Route, Navigate } from "react-router-dom";
+
+
+
 import Home from "./components/Home";
 import Signin from "./components/Signin";
 import Signup from "./components/Signup";
 
+import axios from 'axios'
+
+import { useState,useEffect } from "react";
+
 function App() {
+	console.log(process.env)
+  const [user, setUser] = useState(null);
+  console.log(user)
+  const getUser = async () => {
+		try {
+			const url = `${process.env.REACT_APP_URL}/auth/login/success`;
+			const { data } = await axios.get(url, { withCredentials: true });
+			setUser(data.user);
+      console.log(user)
+		} catch (err) {
+			console.log(err);
+		}
+	};
 
+	useEffect(() => {
 
-  const router=createBrowserRouter([
-     {
-      path:"/",
-      element:<Header/>,
-      children:[
-        {index:true,element:<Signup/>},
-        {path:"/signin",element:<Signin/>},
-        
-        {path:"/home",
-       
-        element: <Home/>
-      }
-      ]
-     }
     
+		getUser();
+	}, []);
 
-  ])
+
+  
+
+ 
   return (
     <div className="App">
-    <RouterProvider router={router}>
-           <Header/>
-
-    </RouterProvider>
-        
-    </div>
+       <Routes>
+				<Route
+					exact
+					path="/"
+					element={user ? <Home user={user} /> : <Navigate to="/signup" />}
+				/>
+				<Route
+					exact
+					path="/signin"
+					element={user ? <Navigate to="/" /> : <Signin setUser={setUser}/>}
+				/>
+				<Route
+					path="/signup"
+					element={user ? <Navigate to="/" /> : <Signup />}
+				/>
+				
+			</Routes>
+		</div>
+  
   );
 }
 

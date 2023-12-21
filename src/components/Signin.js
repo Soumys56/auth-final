@@ -8,13 +8,13 @@ import { useSelector } from 'react-redux'
 import { siginclearSate } from '../redux/reducer/authReducer'
 import { signInuser } from '../redux/reducer/authReducer'
 import "./Signup.css"
-const Signin = () => {
+const Signin = ({setUser}) => {
     
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const dispatch=useDispatch();
     const navigate=useNavigate();
-    const {signinerror,signinsuccess } = useSelector(
+    const {  userinfo,signinerror,signinsuccess } = useSelector(
         (state) => state.user
     )
 
@@ -29,7 +29,9 @@ const Signin = () => {
         if (signinsuccess) {
             if (signinerror === "success") {
                 dispatch(siginclearSate())
-                navigate('/home')
+                setUser(userinfo)
+                 
+                
                 
             } 
             else {
@@ -39,7 +41,7 @@ const Signin = () => {
         }
 
 
-    }, [navigate, signinsuccess, dispatch, signinerror])
+    }, [navigate, signinsuccess, dispatch, signinerror,userinfo])
 
     const authAuthenticate=(e)=>{
         e.preventDefault();

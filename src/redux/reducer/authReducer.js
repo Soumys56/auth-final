@@ -1,6 +1,9 @@
-
+import env from "react-dotenv";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from 'axios'
+
+
+
 const initialState = {
     signuploading: false,
    
@@ -12,7 +15,7 @@ const initialState = {
    signinsuccess: false, // for monitoring the registration process.
   }
   export const fetchUsers = createAsyncThunk('fetchUsers', async () => {
-    const response = await axios.get('http://localhost:8000/user/getuser')
+    const response = await axios.get(`${env.REACT_APP_URL}/user/getuser`)
 
     return await response.data
   })
@@ -34,7 +37,7 @@ const fetch2=async(api,body,token="")=>{
 export  const signUpuser=createAsyncThunk(
     "signupuser",
     async(body)=>{
-     const result=  await fetch2("http://localhost:8000/user/signup",body);
+     const result=  await fetch2(`${process.env.REACT_APP_URL}/user/signup`,body);
      return result;
     }
 )
@@ -42,7 +45,8 @@ export  const signUpuser=createAsyncThunk(
 export const signInuser=createAsyncThunk(
     "signinuser",
     async(body)=>{
-        const result=await fetch2("http://localhost:8000/user/signin",body);
+        const result=await fetch2(`${process.env.REACT_APP_URL}/user/signin`,body);
+        console.log(result)
         return result;
     }
 )
@@ -89,9 +93,12 @@ const authSliceReducer=createSlice({
             state.signinloading = false
             state.signinsuccess = true 
             if(action.payload.err){
+              console.log(action.payload)
               state.signinerror=action.payload.err
             }
             else{
+              console.log(action.payload)
+
               state.signinerror=action.payload.mess
               state.userinfo=action.payload.userinfo
       

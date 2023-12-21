@@ -242,5 +242,19 @@ html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockq
   .agileits-top p a:hover {
     color: #76b852;
   }
-  
+  span{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid black;
+    padding: 0.5rem 1rem;
+    margin-bottom: 10px;
+    cursor: pointer;
+    color:white;
+    gap: 10px;
+    background-color: black;
+    
+  }
+
   

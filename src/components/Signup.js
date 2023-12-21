@@ -1,3 +1,4 @@
+import env from "react-dotenv";
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { signUpuser } from '../redux/reducer/authReducer'
@@ -5,8 +6,11 @@ import { useDispatch } from 'react-redux'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { clearState } from '../redux/reducer/authReducer'
+import { FaGoogle } from "react-icons/fa6";
+
 
 import "./Signup.css"
+
 const Signup = () => {
     const dispatch = useDispatch();
 
@@ -15,7 +19,7 @@ const Signup = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirmpassword, setConfirmpassword] = useState("");
-    const {  signuperror,signupsuccess } = useSelector(
+    const { signuperror, signupsuccess } = useSelector(
         (state) => state.user
     )
     useEffect(() => {
@@ -31,11 +35,11 @@ const Signup = () => {
             if (signuperror === "emai exist") {
                 dispatch(clearState())
                 navigate('/signin')
-                
+
             } else if (signuperror === "Password Mismatch") {
                 dispatch(clearState())
-                navigate('/')
-                
+                navigate('/signup')
+
             }
             else {
                 dispatch(clearState())
@@ -59,11 +63,22 @@ const Signup = () => {
         setEmail("")
 
     }
+    const handleSignin =async () => {
+        window.open(
+          
+            `${process.env.REACT_APP_URL}/auth/google/callback`,
+            "_self"
+        )
+    //  const res=  await axios.get("http://localhost:8000/auth/google/callback")
+    //   console.log(res)       
+            
+
+    }
 
     return (
 
         <div className='main-w3layouts wrapper'>
-           
+ 
             <h1>Creative SignUp Form</h1>
             <div className="main-agileinfo">
                 <div className="agileits-top">
@@ -75,6 +90,7 @@ const Signup = () => {
 
                         <input type="submit" value="SIGNUP" />
                     </form>
+                    <span onClick={handleSignin}> <FaGoogle/>google Sign In</span>
                     <p>already have an Account? <Link to="/signin"> Login Now!</Link></p>
                 </div>
             </div>

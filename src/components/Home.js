@@ -1,15 +1,19 @@
 import React, { useEffect } from 'react'
-import { fetchUsers } from '../redux/reducer/authReducer';
-import { useDispatch } from 'react-redux';
 
+import Header from './Header';
+import "./Home.css"
+const Home = ({user}) => {
 
-const Home = () => {
-    const dispatch=useDispatch();
-    useEffect(()=>{
-    dispatch(fetchUsers())
-    },[dispatch])
+	
+ 
   return (
-    <div>Home</div>
+    <div>
+       <Header/>
+      
+
+            <h1>I am home</h1>
+
+    </div>
   )
 }
 
